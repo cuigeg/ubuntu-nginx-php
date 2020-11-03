@@ -1,5 +1,9 @@
 FROM ubuntu:bionic as staging
 
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get install -y software-properties-common language-pack-en-base \
+    && LC_ALL=en_US.UTF-8 \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 RUN add-apt-repository -y ppa:ondrej/php \
 && apt-get update \
 && apt-get install -y mcrypt libmcrypt-dev php7.4-cli php7.4-dev
