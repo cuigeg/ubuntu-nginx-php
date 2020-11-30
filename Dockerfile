@@ -49,7 +49,7 @@ RUN touch /etc/php/7.4/mods-available/mcrypt.ini \
 RUN php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" \
 && php composer-setup.php \
 && php -r "unlink('composer-setup.php');" \
-&& composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
+&& composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
 
 ENTRYPOINT ["/sbin/init"]
