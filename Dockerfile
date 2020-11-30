@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y software-properties-common language-pac
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 RUN add-apt-repository -y ppa:ondrej/php \
 && apt-get update \
-&& apt-get install -y mcrypt libmcrypt-dev php7.4-fpm php7.4-cli php7.4-readline php7.4-mbstring php7.4-zip php7.4-intl php7.4-json php7.4-xml php7.4-curl php7.4-gd php7.4-pdo php7.4-mysql php-imagick php-redis php-mongodb php-memcache \
+&& apt-get install -y mcrypt libmcrypt-dev php7.4-fpm php7.4-cli php7.4-readline php7.4-mbstring php7.4-zip php7.4-intl php7.4-json php7.4-xml php7.4-curl php7.4-gd php7.4-pdo php7.4-mysql php-imagick php-redis php-mongodb php-memcache php-amqplib/bionic \
 && apt-get install -y nginx \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
@@ -44,6 +44,12 @@ RUN touch /etc/php/7.4/mods-available/mcrypt.ini \
 && echo "extension=swoole.so" >> /etc/php/7.4/mods-available/swoole.ini \
 && ln -s /etc/php/7.4/mods-available/swoole.ini /etc/php/7.4/cli/conf.d/20-swoole.ini \
 && ln -s /etc/php/7.4/mods-available/swoole.ini /etc/php/7.4/fpm/conf.d/20-swoole.ini
+
+# 安装composer
+RUN php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" \
+&& php composer-setup.php \
+&& php -r "unlink('composer-setup.php');" \
+&& composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
 
 
 ENTRYPOINT ["/sbin/init"]
